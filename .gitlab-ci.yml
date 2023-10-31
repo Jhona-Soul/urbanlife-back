@@ -1,0 +1,64 @@
+image: docker:stable
+
+variables:
+  DOCKER_NAME: "equipo-05_urbanlife"
+  DOCKER_SPRING: "urbanlifeapp"
+  DOCKER_DB: "urbanlifedb"
+
+stages:
+  - build
+  - deploy
+  - test
+
+build:
+  stage: build
+  tags:
+    - equipo5back
+  only:
+    - back
+  services:
+    - name: docker:dind
+      alias: docker
+  before_script:
+    - docker rmi -f $DOCKER_NAME || true
+
+    - docker stop $DOCKER_SPRING || true
+
+    - docker rm -f $DOCKER_SPRING || true
+    - docker ps -a -q -f status=exited | xargs docker rm
+    - apk add --no-cache curl
+    - dangling_images=$(docker images -f "dangling=true" -q)
+    - if [ -n "$dangling_images" ]; then docker rmi $dangling_images || true; fi
+    - |
+      curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      chmod +x /usr/local/bin/docker-compose
+  script:
+    - docker-compose up --no-start
+
+deploy:
+  stage: deploy
+  tags:
+    - equipo5back
+  only:
+    - back
+  services:
+    - name: docker:dind
+      alias: docker
+  script:
+    - sleep 10
+    - docker start $DOCKER_SPRING
+
+test:
+  stage: test
+  tags:
+    - equipo5back
+  only:
+    - back
+  services:
+    - name: docker:dind
+      alias: docker
+  script:
+    - sleep 5
+    - docker images $DOCKER_NAME
+    - docker ps | grep $DOCKER_DB
+    - docker ps | grep $DOCKER_SPRING

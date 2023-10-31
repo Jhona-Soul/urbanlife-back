@@ -1,0 +1,30 @@
+{
+    "idProducto": 1,
+    "nombre": "Remera Pray",
+    "precio": 8.649,
+    "detalle": "Remera de jersey algodon poliester, con estampa en frente y espalda, calce oversize.Material: Jersey Algodon.",
+    "color": "Negro",
+    "tela": "Algodon",
+    "genero": "Hombre",
+    "evento": "Urbano",
+    "temporada": "Verano",
+    "categorias": 1,
+    "talles": [1,2,3],
+    "imagenes":[
+        {
+            "idImagen": 1,
+            "UrlImagen": ""
+        },
+        {
+            "idImagen": 2,
+            "UrlImagen": ""
+        },
+        {
+            "idImagen": 3,
+            "UrlImagen": ""
+        }
+    ]
+}
+
+
+

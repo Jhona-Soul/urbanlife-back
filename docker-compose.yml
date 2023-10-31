@@ -1,0 +1,24 @@
+version: "3"
+services:
+  db:
+    image: mysql:8.0.32
+    container_name: urbanlifedb
+    environment:
+      MYSQL_DATABASE: urbanlife
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: echo3241
+      MYSQL_ROOT_PASSWORD: echo3241
+    ports:
+      - 3306:3306
+
+  urbanlife:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: urbanlifeapp
+    ports:
+      - 80:80
+    environment:
+      MYSQL_DATASOURCE_URL: jdbc:mysql://db:3306/urbanlife
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: echo3241
