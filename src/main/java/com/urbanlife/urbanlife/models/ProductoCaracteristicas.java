@@ -24,7 +24,7 @@ public class ProductoCaracteristicas {
     private Productos productos;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "idMedida")
+    @JoinColumn(name = "idSubCaracteristica")
     private SubCaracteristicas subCaracteristicas;
 
 
